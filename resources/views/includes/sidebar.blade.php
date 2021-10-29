@@ -9,20 +9,13 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                {{-- <li class="nav-item">
-                    <a href="{{ route('employee.index') }}">
+                <li class="nav-item">
+                    <a href="{{route('order')}}">
                         <i class="fas fa-address-card"></i>
-                        <p>Data Karyawan</p>
+                        <p>List Order</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('certificate') }}">
-                        <i class="fas fa-address-card"></i>
-                        <p>Sertifikasi</p>
-                    </a>
-                </li> --}}
-
-
+               
             </ul>
         </div>
     </div>

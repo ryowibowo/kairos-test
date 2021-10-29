@@ -18,3 +18,15 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/' , 'DashboardController@index')->name('dashboard');
 
+
+Route::prefix('order')->group(function() {
+
+    Route::get('/', 'orderController@index')->name('order');
+    Route::get('create', 'orderController@create')->name('order.create');
+    Route::post('store', 'orderController@store')->name('order.store');
+    Route::get('edit/{id}', 'orderController@edit')->name('order.edit');
+    Route::post('update/{id}', 'orderController@update')->name('order.update');
+    Route::get('delete/{id}', 'orderController@destroy')->name('order.delete');
+    Route::get('datatables', 'orderController@datatables')->name('order.datatables');
+
+});
