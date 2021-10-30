@@ -15,6 +15,13 @@
                         <p>List Order</p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{route('product')}}">
+                        <i class="fas fa-address-card"></i>
+                        <p>Master Product</p>
+                    </a>
+                </li>
                
             </ul>
         </div>

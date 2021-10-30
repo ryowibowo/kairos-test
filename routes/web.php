@@ -16,17 +16,38 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/' , 'DashboardController@index')->name('dashboard');
 
+Route::get('login', 'AuthController@index')->name('login');
+Route::post('proses_login', 'AuthController@proses_login')->name('proses_login');
+Route::get('logout', 'AuthController@logout')->name('logout');
 
-Route::prefix('order')->group(function() {
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/' , 'DashboardController@index')->name('dashboard');
 
-    Route::get('/', 'orderController@index')->name('order');
-    Route::get('create', 'orderController@create')->name('order.create');
-    Route::post('store', 'orderController@store')->name('order.store');
-    Route::get('edit/{id}', 'orderController@edit')->name('order.edit');
-    Route::post('update/{id}', 'orderController@update')->name('order.update');
-    Route::get('delete/{id}', 'orderController@destroy')->name('order.delete');
-    Route::get('datatables', 'orderController@datatables')->name('order.datatables');
+    Route::prefix('order')->group(function() {
+
+        Route::get('/', 'orderController@index')->name('order');
+        Route::get('create', 'orderController@create')->name('order.create');
+        Route::post('store', 'orderController@store')->name('order.store');
+        Route::get('edit/{id}', 'orderController@edit')->name('order.edit');
+        Route::post('update/{id}', 'orderController@update')->name('order.update');
+        Route::get('delete/{id}', 'orderController@destroy')->name('order.delete');
+        Route::get('datatables', 'orderController@datatables')->name('order.datatables');
+    
+    });
+
+    Route::prefix('product')->group(function() {
+
+        Route::get('/', 'ProductController@index')->name('product');
+        Route::get('create', 'ProductController@create')->name('product.create');
+        Route::post('store', 'ProductController@store')->name('product.store');
+        Route::get('edit/{id}', 'ProductController@edit')->name('product.edit');
+        Route::post('update/{id}', 'ProductController@update')->name('product.update');
+        Route::get('delete/{id}', 'ProductController@destroy')->name('product.destroy');
+
+    
+    });
 
 });
+
+

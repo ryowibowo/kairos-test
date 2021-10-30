@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use Validator;
-use Session;
-use Carbon\Carbon;
 use DataTables;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -53,6 +51,7 @@ class OrderController extends Controller
 
     public function datatables(Request $request)
     {
+        
         if ($request->ajax()) {
             $order = new Order();
         
@@ -68,8 +67,12 @@ class OrderController extends Controller
             return Datatables::of($order)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $actionBtn = '<a  href="'.route('order.edit', $row->id).'" class="edit btn btn-success btn-sm">Edit</a> 
+
+                    $actionBtn = '';
+                    if(Auth::user()->type == 'admin'){
+                        $actionBtn = '<a  href="'.route('order.edit', $row->id).'" class="edit btn btn-success btn-sm">Edit</a> 
                                   <a href="'.route('order.delete', $row->id).'" class="delete btn btn-danger btn-sm">Delete</a>';
+                    }
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])

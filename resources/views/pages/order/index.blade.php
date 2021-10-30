@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', 'List Order')
 @section('content')
     <div class="page-header">
         <h4 class="page-title">Order List</h4>
@@ -13,12 +14,14 @@
                                 Filter
                                 </button>
                             </a>
-                            <a href="{{ route('order.create') }}">
-                                <button class="btn btn-success btn-round ml-auto">
-                                <i class="fa fa-plus"></i>
-                                New Order
-                                </button>
-                            </a>
+                            @if( Auth::user()->type == 'admin' )
+                                <a href="{{ route('order.create') }}">
+                                    <button class="btn btn-success btn-round ml-auto">
+                                    <i class="fa fa-plus"></i>
+                                    New Order
+                                    </button>
+                                </a>
+                            @endif
                     </div>
                 </div>
                 <div class="card-body">
@@ -54,7 +57,7 @@
         </div>
         <div class="modal-body">
             <div class="row form-group">
-                <label class="col-md-12">NIK</label>
+                <label class="col-md-12">Order ID</label>
                 <div class="col-md-12">
                     <input type="input" class="form-control" id="order_id" name="order_id">
                 </div>
@@ -114,7 +117,7 @@
                     "data": function ( d ) {
                         // console.log(d);
                         // d.filter_title = $('#filter_title').val();
-                        d.nik = $('#order_id').val();
+                        d.order_id = $('#order_id').val();
                         d.nama = $('#nama').val();
 
                     }
