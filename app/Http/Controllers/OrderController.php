@@ -16,6 +16,16 @@ class OrderController extends Controller
         return view('pages.order.index');
     }
 
+    public function create()
+    {
+        $data = DB::table('products')
+                ->select('products.*', 'product_details.*')
+                    
+                ->join('product_details', 'product_details.product_id', '=', 'products.id')
+                ->get();
+        return view('pages.order.create', ['data' => $data] );
+    }
+
     public function edit($id)
     {
         $item = DB::table('orders')
