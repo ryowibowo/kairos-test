@@ -33,20 +33,25 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('update/{id}', 'orderController@update')->name('order.update');
         Route::get('delete/{id}', 'orderController@destroy')->name('order.delete');
         Route::get('datatables', 'orderController@datatables')->name('order.datatables');
+
+        Route::post('addProduct', 'orderController@addProduct')->name('order.addproduct');
+        Route::get('deleteDetail/{id}', 'orderController@destroyDetail')->name('order.deleteDetail');
+
     
     });
 
     Route::prefix('product')->group(function() {
 
         Route::get('/', 'ProductController@index')->name('product');
+        Route::get('/getData/{id}', 'ProductController@getAll')->name('product.getAll');
         Route::get('create', 'ProductController@create')->name('product.create');
         Route::post('store', 'ProductController@store')->name('product.store');
         Route::get('edit/{id}', 'ProductController@edit')->name('product.edit');
         Route::post('update/{id}', 'ProductController@update')->name('product.update');
         Route::get('delete/{id}', 'ProductController@destroy')->name('product.destroy');
 
-    
     });
+
 
 });
 

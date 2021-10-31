@@ -78,4 +78,11 @@ class ProductController extends Controller
         return redirect()->route('product'); 
     }
 
+    public function getAll($id = 0)
+    {   
+        $data = Product::find($id);
+        echo json_encode($data);
+
+    }
+
 }

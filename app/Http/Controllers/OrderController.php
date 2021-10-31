@@ -7,6 +7,9 @@ use DB;
 use DataTables;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Session;
+
 
 class OrderController extends Controller
 {
@@ -23,7 +26,9 @@ class OrderController extends Controller
                     
                 ->join('product_details', 'product_details.product_id', '=', 'products.id')
                 ->get();
-        return view('pages.order.create', ['data' => $data] );
+        $product = DB::table('products')
+            ->get();
+        return view('pages.order.create', ['data' => $data, 'product' => $product] );
     }
 
     public function edit($id)
@@ -88,5 +93,36 @@ class OrderController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
+    }
+    
+    public function addProduct(Request $request)
+    {
+        $this->validate($request, [
+    		'qty' => 'required'
+	    	
+    	]);
+        $product = DB::table('products')
+            ->select('price')
+            ->where('id', $request->product_id)
+            ->first();
+        DB::table('product_details')->insert(
+            [
+                'product_id' => $request->product_id,
+                'qty' => $request->qty,
+                'subtotal' => $request->qty * $product->price,
+                'created_at' => Carbon::now()
+            ]
+        );
+
+        Session::flash('message_alert', 'Berhasil Disimpan');
+        return redirect()->route('order.create'); 
+    }
+
+    public function destroyDetail($id)
+    {
+        $delete = DB::table('product_details')->delete($id);
+        
+        Session::flash('message_alert', 'Berhasil Diapus');
+        return redirect()->route('order.create'); 
     }
 }

@@ -54,18 +54,13 @@
                                     <tr>
                                         <td>{{ $no }}</td>
                                         <td>{{ $row->product_name }}</td>
-                                        <td>{{ $row->price }}</td>
+                                        <td>{{ number_format($row->price) }}</td>
                                         <td>{{ $row->qty }}</td>
-                                        <td>{{ $row->subtotal }}</td>
+                                        <td>{{ number_format($row->subtotal) }}</td>
                                         <td>
                                             @if( Auth::user()->type == 'admin' )
                                                 <div class="form-button-action">
-                                                    <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary" data-original-title="Edit Task">
-                                                        <a href="{{ route('product.edit', $row->id) }}">
-                                                            <i class="fa fa-edit"></i>
-                                                        </a>
-                                                    </button>
-                                                    <form action="{{ route('product.destroy', $row->id) }}" method="GET" class="d-inline">
+                                                    <form action="{{ route('order.deleteDetail', $row->id) }}" method="GET" class="d-inline">
                                                         @csrf
                                                         <button class="btn btn-link btn-danger">
                                                             <i class="fa fa-trash"></i>
@@ -90,25 +85,44 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form>
+        <form action="{{ route('order.addproduct') }}" method="POST">
+            {{ csrf_field() }}
         <div class="modal-body">
                 <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">Recipient:</label>
-                  <input type="text" class="form-control" id="recipient-name">
+                  <label for="recipient-name" class="col-form-label">Product ID</label>
+                  {{-- <input type="text" class="form-control" name="product_id" id="product_id"> --}}
+                  <select name="product_id" class="form-control" id="prodId" required>
+                    <option value="">--Pilih--</option>
+                        @foreach ($product as $data)
+                             <option value="{{$data->id}}">{{$data->id}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
-                  <label for="message-text" class="col-form-label">Message:</label>
-                  <textarea class="form-control" id="message-text"></textarea>
+                    <label for="recipient-name" class="col-form-label">Product Name</label>
+                    <input type="text" class="form-control" id="product_name" disabled>
                 </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Unit Price</label>
+                    <input type="text" class="form-control" id="price" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">QTY</label>
+                    <input type="text" class="form-control" name="qty" id="qty" required>
+                </div>
+                {{-- <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Sub Total</label>
+                    <input type="text" class="form-control" name="subtotal" id="subtotal" disabled>
+                </div> --}}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-warning">Save</button>
         </div>
         </form>
       </div>
@@ -128,7 +142,26 @@
         $(document).ready(function() {
             $('#basic-datatables').DataTable({
             });
-	})
+	    })
+
+        $('#prodId').change(function() {
+            var id = $(this).val();
+            var url = '{{ route("product.getAll", ":id") }}';
+            url = url.replace(':id', id);
+
+            $.ajax({
+                url: url,
+                type: 'get',
+                dataType: 'json',
+                success: function(response) {
+                    if (response != null) {
+                        $('#product_name').val(response.product_name);
+                        $('#price').val(response.price);
+                    }
+                }
+            });
+        });
+
 
     </script>
 @endpush
