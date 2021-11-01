@@ -1,5 +1,6 @@
 <link rel="icon" href="../assets/img/icon.ico" type="image/x-icon" />
 
+
 <!-- Fonts and icons -->
 <script src="{{asset('assets/js/plugin/webfont/webfont.min.js')}}"></script>
 <script>

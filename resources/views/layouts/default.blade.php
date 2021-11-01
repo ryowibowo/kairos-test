@@ -6,6 +6,12 @@
     <title>Kairos Tes - @yield('title') </title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     @include('includes.style')
+    <style>
+        label.error {
+             color: #dc3545;
+             font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>

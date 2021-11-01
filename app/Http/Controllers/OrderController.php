@@ -28,7 +28,42 @@ class OrderController extends Controller
                 ->get();
         $product = DB::table('products')
             ->get();
-        return view('pages.order.create', ['data' => $data, 'product' => $product] );
+
+        $now = Carbon::now()->isoFormat('YYYYMM');
+        $string = '0000';
+    
+        $id = substr($string, -4, 4);
+        $newID = $id+1;
+        $newID = str_pad($newID, 4, '0', STR_PAD_LEFT);
+        $result = $now . '' . $newID;
+        
+        $order = new Order();
+
+        $last = $order->orderBy('id', 'DESC')->pluck('id')->first();
+        $new = $last + 1;
+    
+        return view('pages.order.create', ['data' => $data, 'product' => $product, 'prod_id' => $new] );
+    }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+    		'order_date' => 'required',
+            'customer_name' => 'required'
+	    	
+    	]);
+               
+            DB::table('orders')->insert(
+                [   
+                    'id' => $request->id,
+                    'order_date' => $request->order_date,
+                    'customer_name' => $request->customer_name,
+                    'subtotal' => $request->subtotal
+                ]
+            );
+ 
+            Session::flash('message_alert', 'Berhasil Disimpan');
+            return redirect()->route('order.create'); 
     }
 
     public function edit($id)

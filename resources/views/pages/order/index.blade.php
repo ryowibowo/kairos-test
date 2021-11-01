@@ -33,6 +33,7 @@
                                     <th>Order ID</th>
                                     <th>Order Date</th>
                                     <th>Customer Name</th>
+                                    <th>Total Price</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -127,6 +128,7 @@
                     {data: 'id', name: 'id'},
                     { data: 'order_date', name: 'order_date' },
                     { data: 'customer_name', name: 'customer_name' },
+                    { data: 'subtotal', name: 'subtotal' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center display-block' }
 
                 ],

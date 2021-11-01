@@ -9,21 +9,26 @@
             <div class="card">
                     <div class="col-md-4">
                         <div class="card-body">
-                            <form action="{{ route('order.store') }}" method="POST">
+                            <form action="{{ route('order.store') }}" method="POST" id="form">
                                 @csrf
                                 <div class="form-group">
                                     <label for="name">Order ID</label>
-                                    <input type="text" name="id" class="form-control" value="{{ old('product_name') }}" disabled>
+                                    <input type="text" name="id" class="form-control" value="{{ $prod_id }}" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Order Date</label>
-                                    <input type="date" name="order_date" class="form-control" value="{{ old('order_date') }}">
+                                    <input type="date" name="order_date" class="form-control" value="{{ old('order_date') }}" id="order_date">
                                         <p class="text-danger">{{ $errors->first('order_date') }}</p>
                                 </div>
                                 <div class="form-group">
                                     <label for="customer_name">Customer Name</label>
-                                    <input type="text" name="customer_name" class="form-control" value="{{ old('customer_name') }}">
+                                    <input type="text" name="customer_name" class="form-control" value="{{ old('customer_name') }}" id="customer_name">
                                     <p class="text-danger">{{ $errors->first('price') }}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="customer_name">Total Price</label>
+                                    <input type="number" name="subtotal" class="form-control" value="{{ old('subtotal') }}" id="subtotal">
+                                    <p class="text-danger">{{ $errors->first('subtotal') }}</p>
                                 </div>
                                 <div class="form-group">
                                     <td> 
@@ -130,7 +135,17 @@
   </div>
 
 @push('after-script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
     <script >
+        $(document).ready(function() {
+            $("#form").validate({
+                rules: {
+                    order_date: "required",
+                    customer_name: "required",
+                    subtotal: "required",
+                }
+            });
+        });
         @if(Session::has('message_alert'))  
             swal(
                 'Success!',
@@ -161,7 +176,5 @@
                 }
             });
         });
-
-
     </script>
 @endpush

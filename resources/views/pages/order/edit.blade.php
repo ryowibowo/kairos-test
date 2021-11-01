@@ -15,7 +15,7 @@
                                 <p class="text-danger">{{ $errors->first('order_date') }}</p>
                         </div>
                         <div class="form-group">
-                            <label for="customer_name">customer_name</label>
+                            <label for="customer_name">Customer Name</label>
                             <input type="text" name="customer_name" class="form-control" value="{{ old('customer_name') ? old('customer_name') : $item->customer_name }}">
                             <p class="text-danger">{{ $errors->first('customer_name') }}</p>
                         </div>

@@ -18,7 +18,7 @@
 
                 <li class="nav-item">
                     <a href="{{route('product')}}">
-                        <i class="fas fa-address-card"></i>
+                        <i class="fas fa-bars"></i>
                         <p>Master Product</p>
                     </a>
                 </li>
